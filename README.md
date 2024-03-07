@@ -39,7 +39,10 @@ To get started with the Calorie Tracking Application, follow these steps:
 
 * Export your calorie intake data and charts in various formats, including PDF and CSV.
 
-
+* Note: Various data analysis processes can be incorporated in the future:
+  - Consider adding weekly and monthly data analysis features.
+  - Explore options beyond basic charts (e.g., pie charts) to include other visualization methods.
+  - Implement additional metrics and insights to provide a comprehensive view of calorie tracking data.
 
 
 

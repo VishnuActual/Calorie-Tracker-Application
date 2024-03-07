@@ -1,8 +1,8 @@
-{% extends "layout.html" %} 
-{% block head %} 
-{{ super() }} 
-<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"> 
-{% endblock %} 
+{% extends "layout.html" %}
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+{% endblock %}
 {% block content %}
 <div class="col-md-8">
     <div class="content-container">
@@ -35,7 +35,6 @@
                     {% endfor %}
                 </tbody>
             </table>
-
             <!-- Pagination -->
             <div class="pagination">
                 {% if logs.has_prev %}
@@ -65,6 +64,9 @@
             <h2>Calorie Distribution</h2>
             <img src="{{ url_for('static', filename='pie_charts/daywise.png') }}" alt="Calorie Distribution Pie Chart" width="300">
             <img src="{{ url_for('static', filename='pie_charts/mealwise.png') }}" alt="Calorie Distribution Pie Chart" width="300">
+            <div class="download-button-container">
+                <a href="{{ url_for('calories.download_images') }}" class="btn btn-primary">Download Images</a>
+            </div>
         </div>
     </div>
 </div>

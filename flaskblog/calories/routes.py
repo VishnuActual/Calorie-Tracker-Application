@@ -1,13 +1,16 @@
 
 from datetime import datetime
+from flask import make_response, current_app
+import os
 
-from flask import make_response
 from flaskblog.calories.utils import * 
 from flask import render_template, url_for, flash, redirect, request, abort
 from flaskblog import db 
 from flaskblog.calories.forms import CalorieForm
 from flaskblog.models import Calorie 
 from flask_login import  current_user, login_required
+from reportlab.lib.pagesizes import letter
+from reportlab.platypus import SimpleDocTemplate, Image
 
 from flask import Blueprint
 
@@ -121,4 +124,34 @@ def download_csv():
     response = make_response(csv_data.getvalue())
     response.headers["Content-Disposition"] = "attachment; filename=calorie_logs.csv"
     response.headers["Content-Type"] = "text/csv"
+    return response
+
+
+
+@calories.route('/download_images', methods=['GET'])
+def download_images():
+    # Create a list of file paths for the images
+    image_files = [
+        os.path.join(current_app.root_path, 'static', 'pie_charts', 'daywise.png'),
+        os.path.join(current_app.root_path, 'static', 'pie_charts', 'mealwise.png')
+    ]
+
+    # Create a PDF document
+    pdf_buffer = io.BytesIO()
+    doc = SimpleDocTemplate(pdf_buffer, pagesize=letter)
+    elements = []
+
+    # Add images to the PDF document
+    for file_path in image_files:
+        image = Image(file_path, width=400, height=300)
+        elements.append(image)
+
+    # Build the PDF document
+    doc.build(elements)
+
+    # Create a response object with the PDF file as an attachment
+    response = make_response(pdf_buffer.getvalue())
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = 'attachment; filename=pie_charts.pdf'
+
     return response

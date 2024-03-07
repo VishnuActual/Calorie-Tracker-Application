@@ -27,11 +27,11 @@ def create_app(config_class = Config):
 
     from flaskblog.users.routes import users 
     from flaskblog.calories.routes import calories
-    # from flaskblog.errors.handlers import errors 
+    from flaskblog.errors.handlers import errors 
 
     app.register_blueprint(users) 
     app.register_blueprint(calories) 
-    # app.register_blueprint(errors)
+    app.register_blueprint(errors)
 
     return app 
 

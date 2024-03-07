@@ -10,4 +10,4 @@ class CalorieForm(FlaskForm):
     dinner= FloatField('dinner', validators=[DataRequired()])
     snacks = FloatField('snacks', validators=[DataRequired()])
     date_posted = DateField('Date Posted', validators=[DataRequired()])
-    submit = SubmitField('Calorie')
+    submit = SubmitField('Add')

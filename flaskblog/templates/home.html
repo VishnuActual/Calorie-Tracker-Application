@@ -1,0 +1,71 @@
+{% extends "layout.html" %} 
+{% block head %} 
+{{ super() }} 
+<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"> 
+{% endblock %} 
+{% block content %}
+<div class="col-md-8">
+    <div class="content-container">
+        <div class="table-container">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2>Calorie Logs</h2>
+                <a href="{{ url_for('calories.download_csv') }}" class="btn btn-primary">Download</a>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Breakfast</th>
+                        <th>Lunch</th>
+                        <th>Dinner</th>
+                        <th>Snacks</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for log in logs.items %}
+                    <tr>
+                        <td><a href="{{ url_for('calories.calorie', calorie_id=log.id) }}">{{ log.date_posted.strftime('%Y-%m-%d') }}</a></td>
+                        <td>{{ log.breakfast }}</td>
+                        <td>{{ log.lunch }}</td>
+                        <td>{{ log.dinner }}</td>
+                        <td>{{ log.snacks }}</td>
+                        <td>{{ log.breakfast + log.lunch + log.dinner + log.snacks }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <!-- Pagination -->
+            <div class="pagination">
+                {% if logs.has_prev %}
+                <a href="{{ url_for('calories.home', page=logs.prev_num) }}" class="page-link">&laquo; Previous</a>
+                {% else %}
+                <span class="page-link disabled">&laquo; Previous</span>
+                {% endif %}
+                {% for page in logs.iter_pages() %}
+                {% if page %}
+                {% if page == logs.page %}
+                <span class="page-link">{{ page }}</span>
+                {% else %}
+                <a href="{{ url_for('calories.home', page=page) }}" class="page-link">{{ page }}</a>
+                {% endif %}
+                {% else %}
+                <span class="page-link">...</span>
+                {% endif %}
+                {% endfor %}
+                {% if logs.has_next %}
+                <a href="{{ url_for('calories.home', page=logs.next_num) }}" class="page-link">Next &raquo;</a>
+                {% else %}
+                <span class="page-link disabled">Next &raquo;</span>
+                {% endif %}
+            </div>
+        </div>
+        <div class="image-container">
+            <h2>Calorie Distribution</h2>
+            <img src="{{ url_for('static', filename='pie_charts/daywise.png') }}" alt="Calorie Distribution Pie Chart" width="300">
+            <img src="{{ url_for('static', filename='pie_charts/mealwise.png') }}" alt="Calorie Distribution Pie Chart" width="300">
+        </div>
+    </div>
+</div>
+{% endblock %}
